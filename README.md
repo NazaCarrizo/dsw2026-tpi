@@ -1,5 +1,13 @@
 # Trabajo Práctico Integrador
 ## Desarrollo de Software 2026
+Integrantes:
+
+* 58007 - Carrizo Sanchez, Jorge Nazareno - 3K1
+* 58150 - Ortiz Cancino, Valentín - 3K4
+* 58266 - Zurita, Eduardo Ezequías - 3K1
+* 60865 - Rizza, Nicolas Matias - 3K1
+
+
 
 Acceso al [documento](https://frtutneduar-my.sharepoint.com/:b:/g/personal/franciscovicente_doc_frt_utn_edu_ar/IQD-5kaAARqnT5eL7EnPMCPgAX2LFXXX6e3p-u1C43z5rsQ?e=lbbpnz)
 

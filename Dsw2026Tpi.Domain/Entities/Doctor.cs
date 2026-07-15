@@ -18,7 +18,7 @@ public class Doctor: EntityBase
 
     public Doctor(string name, string licenseNumber, Speciality speciality, Guid? id = null) : base(id)
     {
-        if (name.Length > 3 && name.Length < 100 ) 
+        if (name.Length < 3 || name.Length > 100 ) 
             throw new ArgumentException("El nombre del doctor debe tener entre 3 y 100 caracteres.");
         
         Name = name;

@@ -16,42 +16,54 @@ public class PersistenceEf: IPersistence
 
     public async Task<T> Add<T>(T entity) where T : EntityBase
     {
-        await _context.AddAsync(entity);
+        await _context.Set<T>().AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
 
     public async Task<T> Delete<T>(T entity) where T : EntityBase
     {
-        var a = entity.Id;
-        _context.Remove(entity);
+        entity.Deleted = true;
+        _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
 
     public async Task<T?> First<T>(Expression<Func<T, bool>> predicate, params string[] include) where T : EntityBase
     {
-        return await Include(_context.Set<T>(), include).FirstOrDefaultAsync(predicate);
+        IQueryable<T> query = _context.Set<T>();
+        foreach (var i in include) query = query.Include(i);
+        return await query.FirstOrDefaultAsync(predicate);
+        // return await Include(_context.Set<T>(), include).FirstOrDefaultAsync(predicate);
     }
 
     public async Task<IEnumerable<T>?> GetAll<T>(params string[] include) where T : EntityBase
     {
-        return await Include(_context.Set<T>(), include).ToListAsync();
+        IQueryable<T> query = _context.Set<T>();
+        foreach (var i in include) query = query.Include(i);
+        return await query.ToListAsync();
+        // return await Include(_context.Set<T>(), include).ToListAsync();
     }
 
     public async Task<T?> GetById<T>(Guid id, params string[] include) where T : EntityBase
     {
-        return await Include(_context.Set<T>(), include).FirstOrDefaultAsync(e => e.Id == id);
+        IQueryable<T> query = _context.Set<T>();
+        foreach (var i in include) query = query.Include(i);
+        return await query.FirstOrDefaultAsync(e => e.Id == id);
+        // return await Include(_context.Set<T>(), include).FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public async Task<IEnumerable<T>?> GetFiltered<T>(Expression<Func<T, bool>> predicate, params string[] include) where T : EntityBase
     {
-        return await Include(_context.Set<T>(), include).Where(predicate).ToListAsync();
+        IQueryable<T> query = _context.Set<T>().Where(predicate);
+        foreach (var i in include) query = query.Include(i);
+        return await query.ToListAsync();
+        // return await Include(_context.Set<T>(), include).Where(predicate).ToListAsync();
     }
 
     public async Task<T> Update<T>(T entity) where T : EntityBase
     {
-        _context.Update(entity);
+        _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
